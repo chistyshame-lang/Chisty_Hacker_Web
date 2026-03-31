@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHISTY HACKER DASHBOARD</title>
+    <style>
+        :root {
+            --primary-glow: #00ff41;
+            --accent-glow: #00d4ff;
+            --dark-bg: #050505;
+            --card-bg: rgba(20, 20, 20, 0.8);
+            --border-color: rgba(0, 255, 65, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        /* Canvas Background */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1.title {
+            font-size: 2rem;
+            text-align: center;
+            margin: 40px 0;
+            color: var(--primary-glow);
+            text-shadow: 0 0 10px var(--primary-glow);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Page Management */
+        .page {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Grid */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        .dash-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dash-btn:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+
+        .dash-btn img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
+
+        .dash-btn span {
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* List Items (DK-HACK) */
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .list-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .list-item:hover {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 15px var(--border-color);
+        }
+
+        /* Contact Section */
+        .contact-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--accent-glow);
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .contact-box:hover {
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-3px);
+        }
+
+        /* Back Button */
+        .back-btn {
+            margin-top: 30px;
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+            h1.title { font-size: 1.5rem; }
+        }
+
+        .centered-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <h1 class="title">CHISTY HACKER DASHBOARD</h1>
+
+        <div id="home" class="page active">
+            <div class="grid-layout">
+                <div class="dash-btn" onclick="showPage('dk-hack')">
+                    <img src="https://i.ibb.co.com/pv7DZ5Xt/1774930270238.png" alt="DK">
+                    <span>DK-HACK</span>
+                </div>
+                <div class="dash-btn" onclick="showPage('ai-hack')">
+                    <img src="https://i.ibb.co.com/cKDcZF3w/1774930701204.png" alt="AI">
+                    <span>CHISTY AI HACK</span>
+                </div>
+                <div class="dash-btn" onclick="showPage('contact')">
+                    <img src="https://i.ibb.co.com/QFptmsF7/1774930038131.png" alt="Contact">
+                    <span>CONTACT</span>
+                </div>
+                <div class="dash-btn" onclick="showPage('details')">
+                    <img src="https://i.ibb.co.com/v6HkLffp/file-00000000b6387208bdcf044397240ca0.png" alt="Details">
+                    <span>DETAILS</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="dk-hack" class="page">
+            <div class="list-container">
+                <a href="https://t.me/King_Sami_Official_01" class="list-item">DK WIN 99% ACCURACY</a>
+                <a href="https://t.me/King_Sami_Official_01" class="list-item">HAZY HACK</a>
+                <a href="https://t.me/King_Sami_Official_01" class="list-item">AI HACK</a>
+                <a href="https://t.me/King_Sami_Official_01" class="list-item">NEW PANEL DK / HAZY</a>
+                <a href="https://t.me/King_Sami_Official_01" class="list-item">100% WORKING HACK</a>
+            </div>
+            <center><button class="back-btn" onclick="showPage('home')">RETURN TO DASHBOARD</button></center>
+        </div>
+
+        <div id="ai-hack" class="page">
+            <div class="centered-content">
+                <a href="https://t.me/King_Sami_Official_01" class="list-item" style="width: 80%; padding: 40px; font-size: 1.5rem; border-color: var(--accent-glow);">AI HACK</a>
+                <button class="back-btn" onclick="showPage('home')">RETURN TO DASHBOARD</button>
+            </div>
+        </div>
+
+        <div id="contact" class="page">
+            <div class="list-container">
+                <a href="https://wa.me/qr/SIP5KEKUXISUL1" class="contact-box">
+                    <span>WhatsApp</span>
+                </a>
+                <a href="https://t.me/King_Sami_Official_01" class="contact-box">
+                    <span>Telegram</span>
+                </a>
+            </div>
+            <center><button class="back-btn" onclick="showPage('home')">RETURN TO DASHBOARD</button></center>
+        </div>
+
+        <div id="details" class="page">
+            <div class="centered-content">
+                <h2 style="color: var(--accent-glow); text-shadow: 0 0 10px var(--accent-glow);">Details Coming Soon...</h2>
+                <button class="back-btn" onclick="showPage('home')">RETURN TO DASHBOARD</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Switching Logic
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // Animated Background (Particles)
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(0, 255, 65, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+    </script>
+</body>
+</html>
